@@ -5,18 +5,26 @@ import io.github.manasjain0405.employeemanagement.model.Employee;
 import io.github.manasjain0405.employeemanagement.repository.EmployeeRepo;
 import io.github.manasjain0405.employeemanagement.service.EmployeeService;
 import io.github.manasjain0405.employeemanagement.utils.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = {"Employee"})
 public class EmployeeServiceI implements EmployeeService {
 
     @Autowired
     private EmployeeRepo employeeRepo;
 
     @Override
+    @Cacheable(key = "#id")
     public Employee getEmployeeDetails(final Long id) throws EmployeeNotFoundException {
         return employeeRepo.findById(id)
                 .orElseThrow(ExceptionUtils.bind(EmployeeNotFoundException::new,
@@ -31,17 +39,18 @@ public class EmployeeServiceI implements EmployeeService {
     @Override
     public void addEmployee(final Employee employee) {
         employeeRepo.save(employee);
-
     }
 
     @Override
+    @CacheEvict(allEntries = false, key = "#id", value = "employee")
     public void removeEmployee(final Long id) {
         employeeRepo.deleteById(id);
     }
 
     @Override
-    public void modifyEmployee(final Long id, final Employee employee) {
-        employee.setId(id);
+    //@CachePut(key = "#employee.id", value = "employee")
+    @CacheEvict(allEntries = true)
+    public void modifyEmployee(final Employee employee) {
         employeeRepo.save(employee);
     }
 }

@@ -1,5 +1,16 @@
 spring:
+
   datasource:
     url: jdbc:mysql://localhost:3306/Employee
     username: root
     password: root
+
+  redis:
+    host: localhost
+    port: 6379
+
+  cache:
+    cache-names: employee
+    redis:
+      time-to-live: 60000
+      key-prefix: emp

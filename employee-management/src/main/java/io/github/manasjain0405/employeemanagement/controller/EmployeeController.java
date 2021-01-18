@@ -5,6 +5,10 @@ import io.github.manasjain0405.employeemanagement.model.Employee;
 import io.github.manasjain0405.employeemanagement.service.EmployeeService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +23,8 @@ public class EmployeeController {
     @Autowired
     private RabbitTemplate template;
 
-    @GetMapping("/{employeeId}")
-    public Employee getEmployeeInfo(@PathVariable("employeeId") final Long employeeId) {
+    @GetMapping("/{id}")
+    public Employee getEmployeeInfo(@PathVariable("id") final Long employeeId) {
 
         Employee employee = null;
         try {
@@ -47,13 +51,14 @@ public class EmployeeController {
         employeeService.removeEmployee(employeeId);
     }
 
-    @PutMapping("/{employeeId}")
-    public void modifyEmployee(@PathVariable("employeeId") final Long employeeId, @RequestBody final Employee employee) {
-        employeeService.modifyEmployee(employeeId, employee);
-    }
+//    @PutMapping("/{id}")
+//    public void modifyEmployee(@PathVariable("id") final Long employeeId, @RequestBody final Employee employee) {
+//        employee.setId(employeeId);
+//        employeeService.modifyEmployee(employee);
+//    }
 
     @PutMapping("/")
     public void modifyEmployee(@RequestBody final Employee employee) {
-        employeeService.addEmployee(employee);
+        employeeService.modifyEmployee(employee);
     }
 }
