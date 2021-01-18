@@ -24,7 +24,7 @@ public class EmployeeServiceI implements EmployeeService {
     private EmployeeRepo employeeRepo;
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(key = "#id", value = "employees")
     public Employee getEmployeeDetails(final Long id) throws EmployeeNotFoundException {
         return employeeRepo.findById(id)
                 .orElseThrow(ExceptionUtils.bind(EmployeeNotFoundException::new,
@@ -42,15 +42,22 @@ public class EmployeeServiceI implements EmployeeService {
     }
 
     @Override
-    @CacheEvict(allEntries = false, key = "#id", value = "employee")
+    @CacheEvict(allEntries = false, key = "#id", value = "employees")
     public void removeEmployee(final Long id) {
         employeeRepo.deleteById(id);
     }
 
     @Override
-    //@CachePut(key = "#employee.id", value = "employee")
-    @CacheEvict(allEntries = true)
-    public void modifyEmployee(final Employee employee) {
-        employeeRepo.save(employee);
+    //@CachePut(key = "#employee.id", value = "employees")
+    //@CacheEvict(allEntries = true)
+    public Employee modifyEmployee(final Employee employee) {
+        return employeeRepo.save(employee);
+    }
+
+    @Override
+    //@CachePut(key = "#employee.id", value = "employees")
+    @CacheEvict(allEntries = false, key = "#employee.id", value = "employees")
+    public void cacheEmployee(final long id, final Employee employee) {
+        System.out.println("Update Triggered for" + employee.getId());
     }
 }

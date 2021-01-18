@@ -15,5 +15,7 @@ public interface EmployeeService {
 
     void removeEmployee(final Long id);
 
-    void modifyEmployee(final Employee employee);
+    Employee modifyEmployee(final Employee employee);
+
+    void cacheEmployee(final long id, final Employee employee);
 }

@@ -59,6 +59,7 @@ public class EmployeeController {
 
     @PutMapping("/")
     public void modifyEmployee(@RequestBody final Employee employee) {
-        employeeService.modifyEmployee(employee);
+        Employee modifiedEmployee = employeeService.modifyEmployee(employee);
+        employeeService.cacheEmployee(modifiedEmployee.getId(), modifiedEmployee);
     }
 }
