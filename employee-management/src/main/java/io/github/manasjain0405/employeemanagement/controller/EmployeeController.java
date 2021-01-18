@@ -3,6 +3,7 @@ package io.github.manasjain0405.employeemanagement.controller;
 import io.github.manasjain0405.employeemanagement.exceptions.EmployeeNotFoundException;
 import io.github.manasjain0405.employeemanagement.model.Employee;
 import io.github.manasjain0405.employeemanagement.service.EmployeeService;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,11 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private RabbitTemplate template;
+
     @GetMapping("/{employeeId}")
-    public Employee getEmployeeInfo(@PathVariable("employeeId") Long employeeId) {
+    public Employee getEmployeeInfo(@PathVariable("employeeId") final Long employeeId) {
 
         Employee employee = null;
         try {
@@ -33,22 +37,23 @@ public class EmployeeController {
     }
 
     @PostMapping("/")
-    public void addEmployee(@RequestBody Employee employee) {
-        employeeService.addEmployee(employee);
+    public void addEmployee(@RequestBody final Employee employee) {
+        template.convertAndSend("employee_exchange", "employee_routing_key", employee);
+        //employeeService.addEmployee(employee);
     }
 
     @DeleteMapping("/{employeeId}")
-    public void deleteEmployee(@PathVariable("employeeId") Long employeeId) {
+    public void deleteEmployee(@PathVariable("employeeId") final Long employeeId) {
         employeeService.removeEmployee(employeeId);
     }
 
     @PutMapping("/{employeeId}")
-    public void modifyEmployee(@PathVariable("employeeId") Long employeeId, @RequestBody Employee employee) {
+    public void modifyEmployee(@PathVariable("employeeId") final Long employeeId, @RequestBody final Employee employee) {
         employeeService.modifyEmployee(employeeId, employee);
     }
 
     @PutMapping("/")
-    public void modifyEmployee(@RequestBody Employee employee) {
+    public void modifyEmployee(@RequestBody final Employee employee) {
         employeeService.addEmployee(employee);
     }
 }

@@ -17,7 +17,7 @@ public class EmployeeServiceI implements EmployeeService {
     private EmployeeRepo employeeRepo;
 
     @Override
-    public Employee getEmployeeDetails(Long id) throws EmployeeNotFoundException {
+    public Employee getEmployeeDetails(final Long id) throws EmployeeNotFoundException {
         return employeeRepo.findById(id)
                 .orElseThrow(ExceptionUtils.bind(EmployeeNotFoundException::new,
                         String.format("Employee with id %d not found", id)));
@@ -29,18 +29,18 @@ public class EmployeeServiceI implements EmployeeService {
     }
 
     @Override
-    public void addEmployee(Employee employee) {
+    public void addEmployee(final Employee employee) {
         employeeRepo.save(employee);
 
     }
 
     @Override
-    public void removeEmployee(Long id) {
+    public void removeEmployee(final Long id) {
         employeeRepo.deleteById(id);
     }
 
     @Override
-    public void modifyEmployee(Long id, Employee employee) {
+    public void modifyEmployee(final Long id, final Employee employee) {
         employee.setId(id);
         employeeRepo.save(employee);
     }

@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    Employee getEmployeeDetails(Long id) throws EmployeeNotFoundException;
+    Employee getEmployeeDetails(final Long id) throws EmployeeNotFoundException;
 
     List<Employee> getAllEmployees();
 
-    void addEmployee(Employee employee);
+    void addEmployee(final Employee employee);
 
-    void removeEmployee(Long id);
+    void removeEmployee(final Long id);
 
-    void modifyEmployee(Long id, Employee employee);
+    void modifyEmployee(final Long id, final Employee employee);
 }

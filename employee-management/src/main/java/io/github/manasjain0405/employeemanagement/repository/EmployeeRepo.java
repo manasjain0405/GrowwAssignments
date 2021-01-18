@@ -10,7 +10,7 @@ public interface EmployeeRepo extends CrudRepository<Employee, Long> {
 
     List<Employee> findAll();
 
-    Optional<Employee> findById(Long id);
+    Optional<Employee> findById(final Long id);
 
-    void deleteById(Long id);
+    void deleteById(final Long id);
 }
