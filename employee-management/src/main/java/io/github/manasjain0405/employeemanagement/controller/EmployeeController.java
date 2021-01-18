@@ -1,5 +1,6 @@
 package io.github.manasjain0405.employeemanagement.controller;
 
+import io.github.manasjain0405.employeemanagement.constants.ApplicationConstants;
 import io.github.manasjain0405.employeemanagement.exceptions.EmployeeNotFoundException;
 import io.github.manasjain0405.employeemanagement.model.Employee;
 import io.github.manasjain0405.employeemanagement.service.EmployeeService;
@@ -23,6 +24,9 @@ public class EmployeeController {
     @Autowired
     private RabbitTemplate template;
 
+    @Autowired
+    private ApplicationConstants constants;
+
     @GetMapping("/{id}")
     public Employee getEmployeeInfo(@PathVariable("id") final Long employeeId) {
 
@@ -42,7 +46,7 @@ public class EmployeeController {
 
     @PostMapping("/")
     public void addEmployee(@RequestBody final Employee employee) {
-        template.convertAndSend("employee_exchange", "employee_routing_key", employee);
+        template.convertAndSend(constants.EMPLOYEE_EXCHANGE, constants.ADD_EMPLOYEE_ROUTING_KEY, employee);
         //employeeService.addEmployee(employee);
     }
 
@@ -59,7 +63,8 @@ public class EmployeeController {
 
     @PutMapping("/")
     public void modifyEmployee(@RequestBody final Employee employee) {
-        Employee modifiedEmployee = employeeService.modifyEmployee(employee);
-        employeeService.cacheEmployee(modifiedEmployee.getId(), modifiedEmployee);
+        template.convertAndSend(constants.EMPLOYEE_EXCHANGE, constants.MODIFY_EMPLOYEE_ROUTING_KEY, employee);
+        //employeeService.modifyEmployee(employee);
+        //employeeService.cacheEmployee(modifiedEmployee.getId(), modifiedEmployee);
     }
 }

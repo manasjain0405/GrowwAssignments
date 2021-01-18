@@ -14,3 +14,13 @@ spring:
     redis:
       time-to-live: 60000
       key-prefix: emp
+
+amqp-config:
+  rabbit-mq:
+    exchange: employee_exchange
+    add-employee:
+      queue: add_employee_queue
+      routing-key: add_employee_routing_key
+    modify-employee:
+      queue: modify_employee_queue
+      routing-key: add_employee_routing_key

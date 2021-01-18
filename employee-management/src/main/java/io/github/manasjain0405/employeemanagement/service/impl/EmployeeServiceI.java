@@ -48,16 +48,9 @@ public class EmployeeServiceI implements EmployeeService {
     }
 
     @Override
-    //@CachePut(key = "#employee.id", value = "employees")
-    //@CacheEvict(allEntries = true)
+    @CachePut(key = "#employee.id", value = "employees")
+    //@CacheEvict(allEntries = false, key = "#employee.id", value = "employees")
     public Employee modifyEmployee(final Employee employee) {
         return employeeRepo.save(employee);
-    }
-
-    @Override
-    //@CachePut(key = "#employee.id", value = "employees")
-    @CacheEvict(allEntries = false, key = "#employee.id", value = "employees")
-    public void cacheEmployee(final long id, final Employee employee) {
-        System.out.println("Update Triggered for" + employee.getId());
     }
 }
