@@ -55,11 +55,12 @@ public class EmployeeController {
         employeeService.removeEmployee(employeeId);
     }
 
-//    @PutMapping("/{id}")
-//    public void modifyEmployee(@PathVariable("id") final Long employeeId, @RequestBody final Employee employee) {
-//        employee.setId(employeeId);
+    @PutMapping("/{id}")
+    public void modifyEmployee(@PathVariable("id") final Long employeeId, @RequestBody final Employee employee) {
+        employee.setId(employeeId);
+        template.convertAndSend(constants.EMPLOYEE_EXCHANGE, constants.MODIFY_EMPLOYEE_ROUTING_KEY, employee);
 //        employeeService.modifyEmployee(employee);
-//    }
+    }
 
     @PutMapping("/")
     public void modifyEmployee(@RequestBody final Employee employee) {
