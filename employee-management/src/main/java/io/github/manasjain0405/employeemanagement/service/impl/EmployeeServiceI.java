@@ -5,8 +5,6 @@ import io.github.manasjain0405.employeemanagement.model.Employee;
 import io.github.manasjain0405.employeemanagement.repository.EmployeeRepo;
 import io.github.manasjain0405.employeemanagement.service.EmployeeService;
 import io.github.manasjain0405.employeemanagement.utils.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -49,7 +47,6 @@ public class EmployeeServiceI implements EmployeeService {
 
     @Override
     @CachePut(key = "#employee.id", value = "employees")
-    //@CacheEvict(allEntries = false, key = "#employee.id", value = "employees")
     public Employee modifyEmployee(final Employee employee) {
         return employeeRepo.save(employee);
     }

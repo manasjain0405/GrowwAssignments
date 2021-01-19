@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MessageConfig {
+public class AmqpConfig {
 
     @Autowired
     ApplicationConstants constants;
@@ -53,4 +53,5 @@ public class MessageConfig {
         rabbitTemplate.setMessageConverter(converter());
         return rabbitTemplate;
     }
+
 }

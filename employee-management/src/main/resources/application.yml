@@ -24,3 +24,20 @@ amqp-config:
     modify-employee:
       queue: modify_employee_queue
       routing-key: add_employee_routing_key
+
+kafka-config:
+  bootstrap-servers: localhost:9092
+  add-employee:
+    topic: add_employee_topic
+    group-id: add_employee_group_id
+#
+#    kafka:
+#      consumer:
+#        bootstrap-servers: localhost:9092
+#        group-id: add_employee_group_id
+#        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+#      producer:
+#        bootstrap-servers: localhost:9092
+#        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#        value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
